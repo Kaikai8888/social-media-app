@@ -1,1 +1,1 @@
-CREATE DATABASE USER;
+create database webook;
