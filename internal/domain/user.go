@@ -5,10 +5,10 @@ type User struct {
 	Password string
 }
 
-func (u *User) ValidateEmail() bool {
-	return true
-}
+// func (u *User) ValidateEmail() bool {
+// 	return true
+// }
 
-func (u *User) ValidatePassword() bool {
-	return true
-}
+// func (u *User) ValidatePassword() bool {
+// 	return true
+// }
