@@ -8,6 +8,6 @@ content-type: application/json
 
 { 
   "email": "test@example.com",
-  "password": "12345678$",
-  "confirm_password": "12345678$"
+  "password": "abc123$$$",
+  "confirm_password": "abc123$$$"
 }

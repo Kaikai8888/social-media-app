@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 
 	"webook/internal/domain"
@@ -75,10 +76,15 @@ func (h *UserHandler) SignUp(ctx *gin.Context) {
 		ctx.String(http.StatusOK, "密碼必須包含數字, 特殊字符, 並且長度不能小於 8 位")
 	}
 
-	h.svc.Signup(ctx, domain.User{
+	err = h.svc.Signup(ctx, domain.User{
 		Email:    req.Email,
 		Password: req.Password,
 	})
+
+	if err != nil {
+		fmt.Errorf("Failed to create user: %s", err.Error())
+		ctx.String(http.StatusOK, "Failed to create user")
+	}
 
 }
 
