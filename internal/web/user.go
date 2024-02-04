@@ -14,7 +14,7 @@ import (
 
 const (
 	emailRegexPattern    = `^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$`
-	passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$`
+	passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,72}$`
 )
 
 type UserHandler struct {
@@ -81,11 +81,16 @@ func (h *UserHandler) SignUp(ctx *gin.Context) {
 		Password: req.Password,
 	})
 
-	if err != nil {
+	switch err {
+	case nil:
+		ctx.String(http.StatusOK, "Success")
+
+	case service.ErrDuplicateEmail:
+		ctx.String(http.StatusOK, "email重複")
+	default:
 		fmt.Errorf("Failed to create user: %s", err.Error())
 		ctx.String(http.StatusOK, "Failed to create user")
 	}
-
 }
 
 func (h *UserHandler) Login(ctx *gin.Context) {
