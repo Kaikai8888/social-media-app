@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	hdl := &web.UserHandler{}
+	hdl := web.NewUserHandler()
 	server := gin.Default()
 
 	// CORS
@@ -24,4 +24,6 @@ func main() {
 	}))
 
 	hdl.RegisterRoutes(server)
+
+	server.Run(":8080")
 }

@@ -3,6 +3,7 @@ module webook
 go 1.21.4
 
 require (
+	github.com/dlclark/regexp2 v1.10.0
 	github.com/gin-contrib/cors v1.5.0
 	github.com/gin-gonic/gin v1.9.1
 )
