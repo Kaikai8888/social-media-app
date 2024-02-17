@@ -2,6 +2,9 @@
 @port = 8080
 @host = {{hostname}}:{{port}}
 
+@token = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgxNjA5NTUsIlVpZCI6MX0.suIJ2-2_e8Cy49Ro0fHxplDUO4c1mb5EIEieEAAPqMsPUCgpRxtQ2hNjTgBxkae4vcak29Rd40qh9_lgT_2SMA
+@authToken = Bearer {{login.response.headers.X-Jwt-Token}}
+
 ### Signup
 POST {{host}}/users/signup
 content-type: application/json
@@ -12,7 +15,8 @@ content-type: application/json
   "confirm_password": "abc123$$$"
 }
 
-### Signin
+### Login
+# @name login
 POST {{host}}/users/login
 content-type: application/json
 
@@ -24,3 +28,4 @@ content-type: application/json
 ### Profile
 GET {{host}}/users/profile
 content-type: application/json
+authorization: {{authToken}}

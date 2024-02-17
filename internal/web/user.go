@@ -3,14 +3,15 @@ package web
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"webook/internal/domain"
 	"webook/internal/service"
 
 	regexp "github.com/dlclark/regexp2"
-	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 const (
@@ -109,13 +110,19 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 	user, err := h.svc.Login(ctx, req.Email, req.Password)
 	switch err {
 	case nil:
-		sess := sessions.Default(ctx)
-		sess.Set("userId", user.ID)
-		sess.Options(sessions.Options{MaxAge: 900})
-		err := sess.Save()
+		uc := UserClaims{
+			Uid: user.ID,
+			RegisteredClaims: jwt.RegisteredClaims{
+				ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 1)),
+			},
+		}
+		token := jwt.NewWithClaims(jwt.SigningMethodHS512, uc)
+		tokenStr, err := token.SignedString(JWTKey)
 		if err != nil {
 			ctx.String(http.StatusOK, "系統錯誤")
+			return
 		}
+		ctx.Header("x-jwt-token", tokenStr)
 		ctx.String(http.StatusOK, "登錄成功")
 	case service.ErrInvalidUserOrPassword:
 		ctx.String(http.StatusOK, "用戶名或密碼錯誤")
@@ -129,5 +136,13 @@ func (h *UserHandler) Edit(ctx *gin.Context) {
 }
 
 func (h *UserHandler) Profile(ctx *gin.Context) {
-	ctx.String(http.StatusOK, "Profile")
+	us := ctx.MustGet("user").(UserClaims)
+	ctx.String(http.StatusOK, "Profile, uid: %d", us.Uid)
+}
+
+var JWTKey = []byte("vYGCs=Y=vfSTmpM$D?+.zKUwr#bnYV6pysE2H?BD9f-37N$bFv%$V8ErrqT+AVTZ")
+
+type UserClaims struct {
+	jwt.RegisteredClaims
+	Uid int64
 }

@@ -10,8 +10,6 @@ import (
 	"strings"
 
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -57,16 +55,9 @@ func initWebServer() *gin.Engine {
 			return strings.Contains(origin, "localhost")
 		},
 		AllowCredentials: true,
-		AllowHeaders:     []string{"Content-Type"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"x-jwt-token"}, // 允許前端訪問後端response中的x-jwt-token header
 	}))
-
-	store, err := redis.NewStore(16, "tcp", "localhost:6379", "", []byte("k6CswdUm75WKcbM68UQUuxVsHSpTCwgK"), []byte("eF1`yQ9>yT1`tH1,sJ0.zD8;mZ9~nC6("))
-	if err != nil {
-		panic(err)
-	}
-
-	// get session
-	server.Use(sessions.Sessions("ssid", store)) // name: cookie name
 
 	loginMiddleware := &middleware.LoginMiddlewareBuilder{}
 	// check login
