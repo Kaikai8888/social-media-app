@@ -8,6 +8,7 @@ import (
 	"webook/internal/service"
 
 	regexp "github.com/dlclark/regexp2"
+	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 )
@@ -105,13 +106,22 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	_, err := h.svc.Login(ctx, req.Email, req.Password)
-	if err != nil {
+	user, err := h.svc.Login(ctx, req.Email, req.Password)
+	switch err {
+	case nil:
+		sess := sessions.Default(ctx)
+		sess.Set("userId", user.ID)
+		sess.Options(sessions.Options{MaxAge: 900})
+		err := sess.Save()
+		if err != nil {
+			ctx.String(http.StatusOK, "系統錯誤")
+		}
+		ctx.String(http.StatusOK, "登錄成功")
+	case service.ErrInvalidUserOrPassword:
+		ctx.String(http.StatusOK, "用戶名或密碼錯誤")
+	default:
 		ctx.String(http.StatusOK, "系統錯誤")
-		return
 	}
-
-	ctx.String(http.StatusOK, "登錄成功")
 
 }
 

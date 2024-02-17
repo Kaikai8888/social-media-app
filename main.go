@@ -5,10 +5,13 @@ import (
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/internal/web"
+	"webook/internal/web/middleware"
 
 	"strings"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/memstore"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -56,5 +59,14 @@ func initWebServer() *gin.Engine {
 		AllowCredentials: true,
 		AllowHeaders:     []string{"Content-Type"},
 	}))
+
+	store := memstore.NewStore([]byte("k6CswdUm75WKcbM68UQUuxVsHSpTCwgK"), []byte("eF1`yQ9>yT1`tH1,sJ0.zD8;mZ9~nC6("))
+	// get session
+	server.Use(sessions.Sessions("ssid", store)) // name: cookie name
+
+	loginMiddleware := &middleware.LoginMiddlewareBuilder{}
+	// check login
+	server.Use(loginMiddleware.CheckLogin())
+
 	return server
 }
