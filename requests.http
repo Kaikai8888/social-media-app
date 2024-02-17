@@ -2,7 +2,7 @@
 @port = 8080
 @host = {{hostname}}:{{port}}
 
-### Create a new products
+### Signup
 POST {{host}}/users/signup
 content-type: application/json
 
@@ -10,4 +10,13 @@ content-type: application/json
   "email": "test@example.com",
   "password": "abc123$$$",
   "confirm_password": "abc123$$$"
+}
+
+### Signin
+POST {{host}}/users/login
+content-type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "abc123$$$"
 }

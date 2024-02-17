@@ -94,11 +94,28 @@ func (h *UserHandler) SignUp(ctx *gin.Context) {
 }
 
 func (h *UserHandler) Login(ctx *gin.Context) {
+	type Req struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	var req Req
+	if err := ctx.Bind(&req); err != nil {
+		fmt.Errorf("Failed to parse body, err: %s", err.Error())
+		return
+	}
+
+	_, err := h.svc.Login(ctx, req.Email, req.Password)
+	if err != nil {
+		ctx.String(http.StatusOK, "系統錯誤")
+		return
+	}
+
+	ctx.String(http.StatusOK, "登錄成功")
 
 }
 
 func (h *UserHandler) Edit(ctx *gin.Context) {
-
 }
 
 func (h *UserHandler) Profile(ctx *gin.Context) {
