@@ -11,7 +11,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/memstore"
+	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -60,7 +60,11 @@ func initWebServer() *gin.Engine {
 		AllowHeaders:     []string{"Content-Type"},
 	}))
 
-	store := memstore.NewStore([]byte("k6CswdUm75WKcbM68UQUuxVsHSpTCwgK"), []byte("eF1`yQ9>yT1`tH1,sJ0.zD8;mZ9~nC6("))
+	store, err := redis.NewStore(16, "tcp", "localhost:6379", "", []byte("k6CswdUm75WKcbM68UQUuxVsHSpTCwgK"), []byte("eF1`yQ9>yT1`tH1,sJ0.zD8;mZ9~nC6("))
+	if err != nil {
+		panic(err)
+	}
+
 	// get session
 	server.Use(sessions.Sessions("ssid", store)) // name: cookie name
 

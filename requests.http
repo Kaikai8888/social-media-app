@@ -20,3 +20,7 @@ content-type: application/json
   "email": "test@example.com",
   "password": "abc123$$$"
 }
+
+### Profile
+GET {{host}}/users/profile
+content-type: application/json

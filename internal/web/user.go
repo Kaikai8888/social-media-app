@@ -129,5 +129,5 @@ func (h *UserHandler) Edit(ctx *gin.Context) {
 }
 
 func (h *UserHandler) Profile(ctx *gin.Context) {
-
+	ctx.String(http.StatusOK, "Profile")
 }
