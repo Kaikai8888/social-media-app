@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webook
+spec:
+  type: LoadBalancer
+  selector:
+    app: webook # ＝ pod's label
+  ports: # 可設定多個
+    - name: http # 一般用來只示用途
+      protocol: TCP # port監聽的協議
+      port: 80 # 對外的port
+      targetPort: 8080 # 轉發請求到 pod 的 port
