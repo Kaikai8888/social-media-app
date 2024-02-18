@@ -51,6 +51,12 @@ func (m *LoginMiddlewareBuilder) CheckLogin() gin.HandlerFunc {
 			return
 		}
 
+		if uc.UserAgent != ctx.GetHeader("User-Agent") {
+			ctx.AbortWithStatus(http.StatusUnauthorized)
+			// TODO: alert unexpected usage
+			return
+		}
+
 		if expiredTime.Sub(time.Now()) < time.Second*50 {
 			uc.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute))
 			tokenStr, err = token.SignedString(web.JWTKey)
