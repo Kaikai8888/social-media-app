@@ -1,0 +1,5 @@
+FROM unbuntu:20.04
+# copy the compiled binary to the /app directory
+COPY webhook /app/webhook 
+WORKDIR /app
+CMD ["/app/webhook"]
