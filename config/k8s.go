@@ -4,9 +4,9 @@ package config
 
 var Config = config{
 	DBConfig: DBConfig{
-		DSN: "root:root@tcp(localhost:30006)/webook",
+		DSN: "root:root@tcp(localhost:3306)/webook",
 	},
 	RedisConfig: RedisConfig{
-		Addr: "localhost:30007",
+		Addr: "localhost:6379",
 	},
 }
