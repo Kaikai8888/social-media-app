@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webook-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webook-mysql
+  template:
+    metadata:
+      labels:
+        app: webook-mysql
+    spec:
+      containers:
+      - name: webook-mysql
+        image: mysql:8.0.29
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: mysql
+            containerPort: 3306
+        volumeMounts:
+          - mountPath: /var/lib/mysql # mysql default data storage path
+            name: mysql-storage
+      restartPolicy: Always
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: webook-mysql-present-volume-claim # pvc = persistent volume claim
