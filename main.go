@@ -1,11 +1,13 @@
 package main
 
 import (
+	"time"
 	"webook/internal/repository"
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/internal/web"
 	"webook/internal/web/middleware"
+	"webook/pkg/ginx/ginx/middleware/ratelimit"
 
 	"strings"
 
@@ -13,6 +15,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -60,6 +63,13 @@ func initWebServer() *gin.Engine {
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"x-jwt-token"}, // 允許前端訪問後端response中的x-jwt-token header
 	}))
+
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: config.Config.RedisConfig.Addr,
+	})
+
+	server.Use(ratelimit.NewBuilder(redisClient,
+		time.Second, 1).Build())
 
 	loginMiddleware := &middleware.LoginMiddlewareBuilder{}
 	// check login
