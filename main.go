@@ -9,6 +9,8 @@ import (
 
 	"strings"
 
+	"webook/config"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -25,7 +27,7 @@ func main() {
 }
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open(mysql.Open("root:root@tcp(localhost:13316)/webook"))
+	db, err := gorm.Open(mysql.Open(config.Config.DBConfig.DSN))
 	if err != nil {
 		panic(err)
 	}
