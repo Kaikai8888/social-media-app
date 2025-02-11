@@ -51,6 +51,7 @@ func (h *UserHandler) SignUp(ctx *gin.Context) {
 
 	req := SignUpReq{}
 	if err := ctx.Bind(&req); err != nil {
+		fmt.Errorf("Failed to parse body, err: %s", err.Error())
 		return
 	}
 

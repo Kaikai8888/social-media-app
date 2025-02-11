@@ -2,11 +2,11 @@ package main
 
 import (
 	"time"
+	"webook/internal/interface/web"
+	"webook/internal/interface/web/middleware"
 	"webook/internal/repository"
 	"webook/internal/repository/dao"
 	"webook/internal/service"
-	"webook/internal/web"
-	"webook/internal/web/middleware"
 	"webook/pkg/ginx/ginx/middleware/ratelimit"
 
 	"strings"
