@@ -1,7 +1,9 @@
-package main
+package ioc
 
 import (
+	"strings"
 	"time"
+	"webook/config"
 	"webook/internal/interface/web"
 	"webook/internal/interface/web/middleware"
 	"webook/internal/repository"
@@ -9,40 +11,13 @@ import (
 	"webook/internal/service"
 	"webook/pkg/ginx/ginx/middleware/ratelimit"
 
-	"strings"
-
-	"webook/config"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func main() {
-	db := initDB()
-	server := initWebServer()
-	hdl := initUserHandler(db)
-	hdl.RegisterRoutes(server)
-
-	server.Run(":8080")
-}
-
-func initDB() *gorm.DB {
-	db, err := gorm.Open(mysql.Open(config.Config.DBConfig.DSN))
-	if err != nil {
-		panic(err)
-	}
-
-	err = dao.InitTables(db)
-	if err != nil {
-		panic(err)
-	}
-	return db
-}
-
-func initUserHandler(db *gorm.DB) *web.UserHandler {
+func InitUserHandler(db *gorm.DB) *web.UserHandler {
 	userDAO := dao.NewUserDAO(db)
 	repo := repository.NewUserRepository(userDAO)
 	svc := service.NewUserService(repo)
@@ -50,7 +25,7 @@ func initUserHandler(db *gorm.DB) *web.UserHandler {
 	return hdl
 }
 
-func initWebServer() *gin.Engine {
+func InitWebServer(userHandler *web.UserHandler) *gin.Engine {
 	server := gin.Default()
 
 	// CORS
@@ -71,9 +46,13 @@ func initWebServer() *gin.Engine {
 	server.Use(ratelimit.NewBuilder(redisClient,
 		time.Second, 1).Build())
 
+	// middlewares
 	loginMiddleware := &middleware.LoginMiddlewareBuilder{}
 	// check login
 	server.Use(loginMiddleware.CheckLogin())
+
+	// register routes
+	userHandler.RegisterRoutes(server)
 
 	return server
 }
