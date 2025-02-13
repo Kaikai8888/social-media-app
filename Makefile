@@ -14,3 +14,5 @@ docker:
 
 	# 建立docker image
 	@docker build -t kaijump/webook:v0.0.1 .
+wire_test: 
+	@cd ./internal/integration_test/startup; wire
