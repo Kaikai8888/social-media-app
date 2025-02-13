@@ -9,7 +9,7 @@ import (
 	"webook/internal/repository"
 	"webook/internal/repository/dao"
 	"webook/internal/service"
-	"webook/pkg/ginx/ginx/middleware/ratelimit"
+	"webook/pkg/ginx/middleware/ratelimit"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
