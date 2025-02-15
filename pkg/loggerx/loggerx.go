@@ -1,19 +1,22 @@
 package loggerx
 
-import "go.uber.org/zap"
+import (
+	"context"
+	"webook/pkg/trace"
+
+	"go.uber.org/zap"
+)
 
 const (
-	Debug = "debug"
-	Info  = "info"
-	Warn  = "warn"
-	Error = "error"
+	FieldTraceId = trace.FieldTraceId
 )
 
 type Logger interface {
-	Debug(msg string, fields ...Field)
-	Info(msg string, fields ...Field)
-	Warn(msg string, fields ...Field)
-	Error(msg string, fields ...Field)
+	Debug(ctx context.Context, msg string, fields ...Field)
+	Info(ctx context.Context, msg string, fields ...Field)
+	Warn(ctx context.Context, msg string, fields ...Field)
+	Error(ctx context.Context, msg string, fields ...Field)
+	Fatal(ctx context.Context, msg string, fields ...Field)
 }
 
 type zapLogger struct {
@@ -26,20 +29,29 @@ func NewZapLogger() Logger {
 	}
 }
 
-func (z *zapLogger) Debug(msg string, fields ...Field) {
+func (z *zapLogger) Debug(ctx context.Context, msg string, fields ...Field) {
+	fields = append(fields, String(FieldTraceId, trace.GetTraceId(ctx)))
 	z.l.Debug(msg, toZapFields(fields)...)
 }
 
-func (z *zapLogger) Info(msg string, fields ...Field) {
+func (z *zapLogger) Info(ctx context.Context, msg string, fields ...Field) {
+	fields = append(fields, String(FieldTraceId, trace.GetTraceId(ctx)))
 	z.l.Info(msg, toZapFields(fields)...)
 }
 
-func (z *zapLogger) Warn(msg string, fields ...Field) {
+func (z *zapLogger) Warn(ctx context.Context, msg string, fields ...Field) {
+	fields = append(fields, String(FieldTraceId, trace.GetTraceId(ctx)))
 	z.l.Warn(msg, toZapFields(fields)...)
 }
 
-func (z *zapLogger) Error(msg string, fields ...Field) {
+func (z *zapLogger) Error(ctx context.Context, msg string, fields ...Field) {
+	fields = append(fields, String(FieldTraceId, trace.GetTraceId(ctx)))
 	z.l.Error(msg, toZapFields(fields)...)
+}
+
+func (z *zapLogger) Fatal(ctx context.Context, msg string, fields ...Field) {
+	fields = append(fields, String(FieldTraceId, trace.GetTraceId(ctx)))
+	z.l.Fatal(msg, toZapFields(fields)...)
 }
 
 func toZapFields(fields []Field) []zap.Field {
