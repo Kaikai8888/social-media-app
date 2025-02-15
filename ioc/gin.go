@@ -10,6 +10,7 @@ import (
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/pkg/ginx/middleware/ratelimit"
+	"webook/pkg/ginx/middleware/trace_id_allocator"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -48,8 +49,9 @@ func InitWebServer(userHandler *web.UserHandler) *gin.Engine {
 
 	// middlewares
 	loginMiddleware := &middleware.LoginMiddlewareBuilder{}
-	// check login
 	server.Use(loginMiddleware.CheckLogin())
+	traceIdAllocator := &trace_id_allocator.Builder{}
+	server.Use(traceIdAllocator.Build())
 
 	// register routes
 	userHandler.RegisterRoutes(server)
