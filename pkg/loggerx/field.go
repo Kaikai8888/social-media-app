@@ -27,3 +27,7 @@ func Bool(key string, val bool) Field {
 func Any(key string, val interface{}) Field {
 	return Field(zap.Any(key, val))
 }
+
+func Error(err error) Field {
+	return Field(zap.Error(err))
+}

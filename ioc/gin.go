@@ -26,7 +26,7 @@ func InitUserHandler(db *gorm.DB) *web.UserHandler {
 	return hdl
 }
 
-func InitWebServer(userHandler *web.UserHandler) *gin.Engine {
+func InitWebServer(userHandler *web.UserHandler, articleHandler *web.ArticleHandler) *gin.Engine {
 	server := gin.Default()
 
 	// CORS
@@ -55,6 +55,7 @@ func InitWebServer(userHandler *web.UserHandler) *gin.Engine {
 
 	// register routes
 	userHandler.RegisterRoutes(server)
+	articleHandler.RegisterRoutes(server)
 
 	return server
 }

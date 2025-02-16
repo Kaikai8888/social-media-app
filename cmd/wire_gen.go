@@ -22,7 +22,12 @@ func InitApp() *App {
 	userRepository := repository.NewUserRepository(userDAO)
 	userService := service.NewUserService(userRepository)
 	userHandler := web.NewUserHandler(userService)
-	engine := ioc.InitWebServer(userHandler)
+	logger := ioc.InitLogger()
+	draftArticleDao := dao.NewDraftArticleDao(logger, db)
+	draftArticleRepository := repository.NewDraftArticleRepository(logger, draftArticleDao)
+	articleService := service.NewArticleService(logger, draftArticleRepository)
+	articleHandler := web.NewArticleHandler(logger, articleService)
+	engine := ioc.InitWebServer(userHandler, articleHandler)
 	app := &App{
 		webServer: engine,
 	}

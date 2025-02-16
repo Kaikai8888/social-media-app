@@ -17,14 +17,19 @@ import (
 func InitApiServer() *gin.Engine {
 	wire.Build(
 		ioc.InitDB,
+		ioc.InitLogger,
 
 		dao.NewUserDAO,
+		dao.NewDraftArticleDao,
 
 		repository.NewUserRepository,
+		repository.NewDraftArticleRepository,
 
 		service.NewUserService,
+		service.NewArticleService,
 
 		web.NewUserHandler,
+		web.NewArticleHandler,
 
 		ioc.InitWebServer,
 	)

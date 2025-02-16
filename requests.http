@@ -29,3 +29,13 @@ content-type: application/json
 GET {{host}}/users/profile
 content-type: application/json
 authorization: {{authToken}}
+
+### Create Draft Article
+POST {{host}}/articles
+content-type: application/json
+authorization: {{authToken}}
+
+{
+  "title": "my title",
+  "content": "write something everyday"
+}
