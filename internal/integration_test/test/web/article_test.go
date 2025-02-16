@@ -11,6 +11,7 @@ import (
 	"webook/ioc"
 
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
@@ -21,6 +22,7 @@ type ArticleTestSuite struct {
 
 	server    *gin.Engine
 	db        *gorm.DB
+	redis     redis.Cmdable
 	user      dao.User
 	userAgent string
 	userToken string
@@ -33,6 +35,7 @@ func TestArticleTestSuite(t *testing.T) {
 func (s *ArticleTestSuite) SetupSuite() {
 	s.server = startup.InitApiServer()
 	s.db = ioc.InitDB()
+	s.redis = ioc.InitRedis()
 	util.InitTables(s.db)
 
 	// create user
@@ -49,11 +52,7 @@ func (s *ArticleTestSuite) TearDownTestSuite() {
 	util.TruncateTables(s.T(), s.db, "draft_articles", "users")
 }
 
-func (s *ArticleTestSuite) BeforeTest() {
-	util.TruncateTables(s.T(), s.db, "draft_articles")
-}
-
-func (s *ArticleTestSuite) TestCreateArticle() {
+func (s *ArticleTestSuite) TestArticleHandler() {
 	testCases := []struct {
 		name    string
 		method  string
@@ -72,6 +71,22 @@ func (s *ArticleTestSuite) TestCreateArticle() {
 			reqBody:      `{"title": "test", "content": "test"}`,
 			wantStatus:   200,
 			wantResponse: `{"code":"200","message": "success","data":{"id": 1}}`,
+		}, {
+			name:         "Fail Case: create article with empty title",
+			method:       "POST",
+			path:         "/articles",
+			token:        s.userToken,
+			reqBody:      `{"title": "", "content": "test"}`,
+			wantStatus:   400,
+			wantResponse: `{"code":"400","message":"invalid request"}`,
+		}, {
+			name:         "Fail Case: create article with empty content",
+			method:       "POST",
+			path:         "/articles",
+			token:        s.userToken,
+			reqBody:      `{"title": "test", "content": ""}`,
+			wantStatus:   400,
+			wantResponse: `{"code":"400","message":"invalid request"}`,
 		},
 	}
 
@@ -88,6 +103,9 @@ func (s *ArticleTestSuite) TestCreateArticle() {
 			body, _ := io.ReadAll(resp.Body)
 			assert.Equal(t, tc.wantStatus, resp.StatusCode)
 			assert.JSONEq(t, tc.wantResponse, string(body))
+
+			util.TruncateTables(s.T(), s.db, "draft_articles")
+			util.ClearRedis(s.T(), s.redis)
 		})
 	}
 

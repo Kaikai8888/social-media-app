@@ -16,6 +16,7 @@ import (
 func InitApp() *App {
 	wire.Build(
 		ioc.InitDB,
+		ioc.InitRedis,
 		ioc.InitLogger,
 
 		dao.NewUserDAO,

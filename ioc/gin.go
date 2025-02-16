@@ -3,7 +3,6 @@ package ioc
 import (
 	"strings"
 	"time"
-	"webook/config"
 	"webook/internal/interface/web"
 	"webook/internal/interface/web/middleware"
 	"webook/internal/repository"
@@ -26,7 +25,7 @@ func InitUserHandler(db *gorm.DB) *web.UserHandler {
 	return hdl
 }
 
-func InitWebServer(userHandler *web.UserHandler, articleHandler *web.ArticleHandler) *gin.Engine {
+func InitWebServer(redisClient redis.Cmdable, userHandler *web.UserHandler, articleHandler *web.ArticleHandler) *gin.Engine {
 	server := gin.Default()
 
 	// CORS
@@ -39,10 +38,6 @@ func InitWebServer(userHandler *web.UserHandler, articleHandler *web.ArticleHand
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"x-jwt-token"}, // 允許前端訪問後端response中的x-jwt-token header
 	}))
-
-	redisClient := redis.NewClient(&redis.Options{
-		Addr: config.Config.RedisConfig.Addr,
-	})
 
 	server.Use(ratelimit.NewBuilder(redisClient,
 		time.Second, 1).Build())

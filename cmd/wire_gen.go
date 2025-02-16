@@ -17,6 +17,7 @@ import (
 // Injectors from wire.go:
 
 func InitApp() *App {
+	cmdable := ioc.InitRedis()
 	db := ioc.InitDB()
 	userDAO := dao.NewUserDAO(db)
 	userRepository := repository.NewUserRepository(userDAO)
@@ -27,7 +28,7 @@ func InitApp() *App {
 	draftArticleRepository := repository.NewDraftArticleRepository(logger, draftArticleDao)
 	articleService := service.NewArticleService(logger, draftArticleRepository)
 	articleHandler := web.NewArticleHandler(logger, articleService)
-	engine := ioc.InitWebServer(userHandler, articleHandler)
+	engine := ioc.InitWebServer(cmdable, userHandler, articleHandler)
 	app := &App{
 		webServer: engine,
 	}

@@ -47,6 +47,6 @@ func (h *ArticleHandler) Create(ctx *gin.Context, req CreateUserReq, uc UserClai
 }
 
 type CreateUserReq struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Title   string `json:"title" validate:"required"`
+	Content string `json:"content" validate:"required"`
 }
