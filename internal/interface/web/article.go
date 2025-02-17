@@ -1,10 +1,10 @@
 package web
 
 import (
-	"webook/internal/domain"
-	"webook/internal/service"
-	"webook/pkg/ginx"
-	"webook/pkg/loggerx"
+	"social-media-app/internal/domain"
+	"social-media-app/internal/service"
+	"social-media-app/pkg/ginx"
+	"social-media-app/pkg/loggerx"
 
 	"github.com/gin-gonic/gin"
 )

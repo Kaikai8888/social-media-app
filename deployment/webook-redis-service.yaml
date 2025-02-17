@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: webook-redis
+  name: social-media-app-redis
 spec:
   type: NodePort
   selector:
-    app: webook-redis
+    app: social-media-app-redis
   ports:
     - protocol: TCP
       nodePort: 30007

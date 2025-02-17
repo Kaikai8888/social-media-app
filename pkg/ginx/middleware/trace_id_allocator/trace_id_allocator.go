@@ -1,8 +1,8 @@
 package trace_id_allocator
 
 import (
-	"webook/pkg/ginx"
-	"webook/pkg/trace"
+	"social-media-app/pkg/ginx"
+	"social-media-app/pkg/trace"
 
 	"github.com/emirpasic/gods/v2/sets"
 	"github.com/emirpasic/gods/v2/sets/hashset"

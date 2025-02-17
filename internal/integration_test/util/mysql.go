@@ -3,7 +3,7 @@ package util
 import (
 	"fmt"
 	"testing"
-	"webook/internal/repository/dao"
+	"social-media-app/internal/repository/dao"
 
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"webook/internal/domain"
-	"webook/internal/service"
+	"social-media-app/internal/domain"
+	"social-media-app/internal/service"
 
 	regexp "github.com/dlclark/regexp2"
 

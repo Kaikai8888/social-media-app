@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: webook-mysql-present-volume
+  name: social-media-app-mysql-present-volume
 spec:
-  storageClassName: webook
+  storageClassName: social-media-app
   capacity:
     storage: 1Gi
   # pv 支持的訪問模式

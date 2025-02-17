@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"webook/internal/domain"
-	"webook/internal/repository"
+	"social-media-app/internal/domain"
+	"social-media-app/internal/repository"
 
 	"golang.org/x/crypto/bcrypt"
 )

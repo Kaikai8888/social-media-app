@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webook-redis
+  name: social-media-app-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webook-redis
+      app: social-media-app-redis
   template:
     metadata:
       labels:
-        app: webook-redis
+        app: social-media-app-redis
     spec:
       containers:
-      - name: webook-redis
+      - name: social-media-app-redis
         image: redis:latest
         imagePullPolicy: IfNotPresent
         ports:

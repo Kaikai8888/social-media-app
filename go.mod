@@ -1,4 +1,4 @@
-module webook
+module social-media-app
 
 go 1.22
 

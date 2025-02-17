@@ -4,9 +4,9 @@ package config
 
 var Config = config{
 	DBConfig: DBConfig{
-		DSN: "root:root@tcp(webook:3306)/webook",
+		DSN: "root:root@tcp(social-media-app:3306)/social_media_app",
 	},
 	RedisConfig: RedisConfig{
-		Addr: "webook:6379",
+		Addr: "social-media-app:6379",
 	},
 }

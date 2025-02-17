@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webook-mysql
+  name: social-media-app-mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webook-mysql
+      app: social-media-app-mysql
   template:
     metadata:
       labels:
-        app: webook-mysql
+        app: social-media-app-mysql
     spec:
       containers:
-      - name: webook-mysql
+      - name: social-media-app-mysql
         image: mysql:8.0.29
         env:
           - name: MYSQL_ROOT_PASSWORD
@@ -29,4 +29,4 @@ spec:
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: webook-mysql-present-volume-claim # pvc = persistent volume claim
+            claimName: social-media-app-mysql-present-volume-claim # pvc = persistent volume claim

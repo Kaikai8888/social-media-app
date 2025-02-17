@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"webook/internal/domain"
-	"webook/internal/repository"
-	"webook/pkg/loggerx"
+	"social-media-app/internal/domain"
+	"social-media-app/internal/repository"
+	"social-media-app/pkg/loggerx"
 )
 
 type ArticleService interface {

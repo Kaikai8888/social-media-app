@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 	"time"
-	"webook/internal/interface/web"
-	"webook/internal/repository/dao"
+	"social-media-app/internal/interface/web"
+	"social-media-app/internal/repository/dao"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"

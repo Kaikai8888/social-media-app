@@ -2,7 +2,7 @@ package loggerx
 
 import (
 	"context"
-	"webook/pkg/trace"
+	"social-media-app/pkg/trace"
 
 	"go.uber.org/zap"
 )

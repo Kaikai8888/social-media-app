@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: webook
+  name: social-media-app
 spec:
   type: ClusterIP
   selector:
-    app: webook # ＝ pod's label
+    app: social-media-app # ＝ pod's label
   ports: # 可設定多個
     - name: http # 一般用來只示用途
       protocol: TCP # port監聽的協議

@@ -2,9 +2,9 @@ package repository
 
 import (
 	"context"
-	"webook/internal/domain"
-	"webook/internal/repository/dao"
-	"webook/pkg/loggerx"
+	"social-media-app/internal/domain"
+	"social-media-app/internal/repository/dao"
+	"social-media-app/pkg/loggerx"
 )
 
 type DraftArticleRepository interface {

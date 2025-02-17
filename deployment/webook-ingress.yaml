@@ -1,7 +1,7 @@
   apiVersion: networking.k8s.io/v1
   kind: Ingress
   metadata:
-    name: webook
+    name: social-media-app
   spec:
     ingressClassName: nginx
     rules:
@@ -12,6 +12,6 @@
               pathType: Prefix
               backend:
                 service:
-                  name: webook
+                  name: social-media-app
                   port:
                     number: 80

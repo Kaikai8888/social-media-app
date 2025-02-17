@@ -1,7 +1,7 @@
 package ioc
 
 import (
-	"webook/config"
+	"social-media-app/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

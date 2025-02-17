@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webook
+  name: social-media-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webook
+      app: social-media-app
   template:
     metadata:
       labels:
-        app: webook
+        app: social-media-app
     spec:
       containers:
-      - name: webook
-        image: kaijump/webook:v0.0.1
+      - name: social-media-app
+        image: kaijump/social-media-app:v0.0.1
         ports:
           - containerPort: 8080

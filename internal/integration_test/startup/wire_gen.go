@@ -8,11 +8,11 @@ package startup
 
 import (
 	"github.com/gin-gonic/gin"
-	"webook/internal/interface/web"
-	"webook/internal/repository"
-	"webook/internal/repository/dao"
-	"webook/internal/service"
-	"webook/ioc"
+	"social-media-app/internal/interface/web"
+	"social-media-app/internal/repository"
+	"social-media-app/internal/repository/dao"
+	"social-media-app/internal/service"
+	"social-media-app/ioc"
 )
 
 // Injectors from wire.go:

@@ -1,7 +1,7 @@
 package ioc
 
 import (
-	"webook/config"
+	"social-media-app/config"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -2,8 +2,8 @@ package dao
 
 import (
 	"context"
-	"webook/internal/domain"
-	"webook/pkg/loggerx"
+	"social-media-app/internal/domain"
+	"social-media-app/pkg/loggerx"
 
 	"gorm.io/gorm"
 )

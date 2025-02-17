@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"webook/internal/interface/web"
+	"social-media-app/internal/interface/web"
 
 	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v5"

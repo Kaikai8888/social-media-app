@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
 # copy the compiled binary to the /app directory
-COPY webook /app/webook 
+COPY social-media-app /app/social-media-app 
 WORKDIR /app
-CMD ["/app/webook"]
+CMD ["/app/social-media-app"]

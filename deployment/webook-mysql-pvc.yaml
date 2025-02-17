@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim # 需要的 persistent volume 資源
 metadata:
-  name: webook-mysql-present-volume-claim
+  name: social-media-app-mysql-present-volume-claim
 spec:
-  storageClassName: webook # 會以此比對persistent volume的 storageClassName 做綁定
+  storageClassName: social-media-app # 會以此比對persistent volume的 storageClassName 做綁定
   accessModes: # pvc 會怎麼訪問 pv
     - ReadWriteOnce # 一次只能被一個pod 掛載, 做讀寫 （但一個pod內可能有多go routine, 因此仍須處理併發問題）
   resources:
